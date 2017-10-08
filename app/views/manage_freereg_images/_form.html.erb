@@ -1,0 +1,17 @@
+<%= form_for(@manage_freereg_image) do |f| %>
+  <% if @manage_freereg_image.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@manage_freereg_image.errors.count, "error") %> prohibited this manage_freereg_image from being saved:</h2>
+
+      <ul>
+      <% @manage_freereg_image.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
