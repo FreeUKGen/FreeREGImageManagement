@@ -1,10 +1,22 @@
 class ManageFreeregImagesController < ApplicationController
   before_action :set_manage_freereg_image, only: [:show, :edit, :update, :destroy]
+  
+  def download
+    process,message = ManageFreeregImage.check_parameters(params)
+    @image = ManageFreeregImage.create_file_location(params) if process
+    if process
+       send_file @image
+    else
+      render :text => "There was a problem with your request. #{message}"
+    end
+  end
 
   # GET /manage_freereg_images
   # GET /manage_freereg_images.json
   def index
-    @manage_freereg_images = ManageFreeregImage.all
+    #under development
+    images = ManageFreeregImage.get_folders
+    @manage_freereg_images = []#ManageFreeregImage.all
   end
 
   # GET /manage_freereg_images/1
@@ -14,7 +26,7 @@ class ManageFreeregImagesController < ApplicationController
 
   # GET /manage_freereg_images/new
   def new
-    @manage_freereg_image = ManageFreeregImage.new
+    #@manage_freereg_image = ManageFreeregImage.new
   end
 
   # GET /manage_freereg_images/1/edit
@@ -24,7 +36,7 @@ class ManageFreeregImagesController < ApplicationController
   # POST /manage_freereg_images
   # POST /manage_freereg_images.json
   def create
-    @manage_freereg_image = ManageFreeregImage.new(manage_freereg_image_params)
+    #@manage_freereg_image = ManageFreeregImage.new(manage_freereg_image_params)
 
     respond_to do |format|
       if @manage_freereg_image.save
@@ -60,6 +72,17 @@ class ManageFreeregImagesController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def view
+    process,message = ManageFreeregImage.check_parameters(params)
+    @image = ManageFreeregImage.create_file_location(params) if process
+    if process
+       send_file @image,  :disposition => 'inline'
+    else
+      render :text => "There was a problem with your request. #{message}"
+    end
+  end
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.

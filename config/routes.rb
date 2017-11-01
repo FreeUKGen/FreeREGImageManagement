@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  
+  get 'manage_freereg_images/:id/download(.:format)', :to => 'manage_freereg_images#download', :as => :download_freereg_image
+  get 'manage_freereg_images/:id/view(.:format)', :to => 'manage_freereg_images#view', :as => :view_freereg_image
   resources :manage_freereg_images
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

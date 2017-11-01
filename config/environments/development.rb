@@ -44,7 +44,7 @@ FreeregImageManagement::Application.configure do
   config.mongodb_collection_location = File.join(Rails.root,'db','collections')
   # Date of dataset used
   config.dataset_date = "9 November 2014"
-  config.imagedirectory = FreeregImageManagement::MongoConfig['datafiles']
+  config.imagedirectory = FreeregImageManagement::MongoConfig['imagedirectory']
   config.website = FreeregImageManagement::MongoConfig['website']
   config.backup_directory = FreeregImageManagement::MongoConfig['backup_directory']
   config.github_issues_login = FreeregImageManagement::MongoConfig['github_issues_login']
