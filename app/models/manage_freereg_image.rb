@@ -50,6 +50,7 @@ class ManageFreeregImage
    
    def get_folders
        hash_of_images = Hash
+       p "GET FOLDERS"
        p Rails.application.config.imagedirectory
        Rails.application.config.website == 'https://image_management.freereg.org.uk/' ? image_directory = File.join(Rails.application.config.imagedirectory) : image_directory = File.join(Rails.root,Rails.application.config.imagedirectory)
        p image_directory
