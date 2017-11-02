@@ -60,19 +60,7 @@ class ManageFreeregImage
        p pattern
        counties = Dir.glob(pattern, File::FNM_CASEFOLD).sort 
        p counties
-       counties.each do |county|
-           p county
-         county_directory = File.join(image_directory,county)
-         Dir.chdir(county_directory)   
-         register_sources = Dir.glob(pattern, File::FNM_CASEFOLD).sort 
-         p register_sources
-         register_sources.each do |register|
-             register_directory = File.join(county_directory,register)
-             Dir.chdir(register_directory)
-             images =  Dir.glob(pattern, File::FNM_CASEFOLD).sort
-             p images
-         end
-       end
+       
    end
   end # end self class
   
