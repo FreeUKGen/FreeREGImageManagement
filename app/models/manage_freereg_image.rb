@@ -4,7 +4,7 @@ class ManageFreeregImage
    #include Mongoid::Document 
    def check_chapman_code_folder?(chapman_code)
        process = true
-       image_directory = File.join(Rails.root,Rails.application.config.imagedirectory)
+       image_directory = File.join(Rails.application.config.imagedirectory)
        counties = Dir.entries(image_directory) 
        process = false unless counties.include?(chapman_code)
        return process
@@ -12,7 +12,7 @@ class ManageFreeregImage
    
    def check_register?(chapman_code,register)
        process = true
-       county_directory = File.join(Rails.root,Rails.application.config.imagedirectory,chapman_code)
+       county_directory = File.join(Rails.application.config.imagedirectory,chapman_code)
        registers = Dir.entries(county_directory) 
        process = false unless registers.include?(register)
        return process 
@@ -20,7 +20,7 @@ class ManageFreeregImage
    
    def check_file?(chapman_code,register,file)
        process = true
-       register_directory = File.join(Rails.root,Rails.application.config.imagedirectory,chapman_code,register)
+       register_directory = File.join(Rails.application.config.imagedirectory,chapman_code,register)
        files = Dir.entries(register_directory) 
        process = false unless files.include?(file)
        return process 
@@ -44,7 +44,7 @@ class ManageFreeregImage
    end
    
    def create_file_location(param)
-      File.join(Rails.root,Rails.application.config.imagedirectory,param[:chapman_code],param[:folder_name],param[:image_file_name])  
+      File.join(Rails.application.config.imagedirectory,param[:chapman_code],param[:folder_name],param[:image_file_name])  
    end
    
    def get_folders
