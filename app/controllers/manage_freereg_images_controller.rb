@@ -2,6 +2,8 @@ class ManageFreeregImagesController < ApplicationController
   before_action :set_manage_freereg_image, only: [:show, :edit, :update, :destroy]
   
   def download
+    p "Download"
+    p params
     process,message = ManageFreeregImage.check_parameters(params)
     @image = ManageFreeregImage.create_file_location(params) if process
     if process
@@ -74,6 +76,8 @@ class ManageFreeregImagesController < ApplicationController
   end
   
   def view
+    p "View"
+    p params
     process,message = ManageFreeregImage.check_parameters(params)
     @image = ManageFreeregImage.create_file_location(params) if process
     if process
