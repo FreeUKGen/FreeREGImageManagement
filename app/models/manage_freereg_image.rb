@@ -44,22 +44,25 @@ class ManageFreeregImage
    end
    
    def create_file_location(param)
-     Rails.application.config.website == 'https://image_management.freereg.org.uk/' ? location = File.join(Rails.application.config.imagedirectory,param[:chapman_code],param[:folder_name],param[:image_file_name]) : location =  File.join(Rails.root,Rails.application.config.imagedirectory,param[:chapman_code],param[:folder_name],param[:image_file_name])  
+     #we use the test to diferentiate between the operational environment and a cloud9 test environment
+     Rails.application.config.imagedirectory == '/data/raid3/freereg/images/.uploads/' ? location = File.join(Rails.application.config.imagedirectory,param[:chapman_code],param[:folder_name],param[:image_file_name]) : location =  File.join(Rails.root,Rails.application.config.imagedirectory,param[:chapman_code],param[:folder_name],param[:image_file_name])  
      location   
    end
    
    def get_folders
-       hash_of_images = Hash
-       p "GET FOLDERS"
-       p Rails.application.config.imagedirectory
-       Rails.application.config.website == 'https://image_management.freereg.org.uk/' ? image_directory = File.join(Rails.application.config.imagedirectory) : image_directory = File.join(Rails.root,Rails.application.config.imagedirectory)
-       p image_directory
-       Dir.chdir(image_directory)
-       #p DIR.pwd
-       pattern = '*'
-       p pattern
-       counties = Dir.glob(pattern, File::FNM_CASEFOLD).sort 
-       p counties
+     #we use the test to diferentiate between the operational environment and a cloud9 test environment
+     #This code is in development
+     hash_of_images = Hash
+     p "GET FOLDERS"
+     p Rails.application.config.imagedirectory
+     Rails.application.config.imagedirectory == '/data/raid3/freereg/images/.uploads/' ? image_directory = File.join(Rails.application.config.imagedirectory) : image_directory = File.join(Rails.root,Rails.application.config.imagedirectory)
+     p image_directory
+     Dir.chdir(image_directory)
+     #p DIR.pwd
+     pattern = '*'
+     p pattern
+     counties = Dir.glob(pattern, File::FNM_CASEFOLD).sort 
+     p counties
        
    end
   end # end self class

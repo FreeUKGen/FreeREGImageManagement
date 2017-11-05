@@ -2,14 +2,12 @@ class ManageFreeregImagesController < ApplicationController
   before_action :set_manage_freereg_image, only: [:show, :edit, :update, :destroy]
   
   def download
-    p "Download"
-    p params
     process,message = ManageFreeregImage.check_parameters(params)
     @image = ManageFreeregImage.create_file_location(params) if process
     if process
        send_file @image
     else
-      render :text => "There was a problem with your request. #{message}"
+      render :plain => "There was a problem with your request. #{message}"
     end
   end
 
@@ -76,14 +74,12 @@ class ManageFreeregImagesController < ApplicationController
   end
   
   def view
-    p "View"
-    p params
     process,message = ManageFreeregImage.check_parameters(params)
     @image = ManageFreeregImage.create_file_location(params) if process
     if process
        send_file @image,  :disposition => 'inline'
     else
-      render :text => "There was a problem with your request. #{message}"
+      render :plain => "There was a problem with your request. #{message}"
     end
   end
   
