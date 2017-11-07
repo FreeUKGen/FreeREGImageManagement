@@ -1,13 +1,24 @@
 class ManageFreeregImagesController < ApplicationController
   before_action :set_manage_freereg_image, only: [:show, :edit, :update, :destroy]
   
+  def access
+    process,@counties = ManageFreeregImage.get_county_folders
+    if process
+      render '_county_index'
+    else
+     flash[:notice] = "There was a problem with locating the image folder."
+     render '_error_message'
+    end 
+  end
+  
   def download
     process,message = ManageFreeregImage.check_parameters(params)
-    @image = ManageFreeregImage.create_file_location(params) if process
+    process,@image = ManageFreeregImage.create_file_location(params) if process
     if process
        send_file @image
     else
-      render :plain => "There was a problem with your request. #{message}"
+     flash[:notice] = "There was a problem with your request. #{message}"
+     render '_error_message'
     end
   end
 
@@ -15,8 +26,13 @@ class ManageFreeregImagesController < ApplicationController
   # GET /manage_freereg_images.json
   def index
     #under development
-    images = ManageFreeregImage.get_folders
-    @manage_freereg_images = []#ManageFreeregImage.all
+    process,@counties = ManageFreeregImage.get_county_folders
+    if process
+      render '_county_index'
+    else
+     flash[:notice] = "There was a problem with locating the image folder."
+     render '_error_message'
+    end
   end
 
   # GET /manage_freereg_images/1
@@ -48,6 +64,25 @@ class ManageFreeregImagesController < ApplicationController
       end
     end
   end
+  
+  def images
+    @county = params[:county]
+    @register = params[:register]
+    process,@images = ManageFreeregImage.get_images(@county, @register )
+     if !process
+      flash[:notice] = "There was a problem with locating the images for the register folder #{@register}  for the county of #{@county}."
+      render '_error_message'
+     end
+  end
+  
+  def register_folders
+    @county = params[:county]
+    process,@registers = ManageFreeregImage.get_register_folders(@county)
+     if !process
+      flash[:notice] = "There was a problem with locating the register folders for the county of #{@county}."
+      render '_error_message'
+     end
+  end
 
   # PATCH/PUT /manage_freereg_images/1
   # PATCH/PUT /manage_freereg_images/1.json
@@ -74,12 +109,13 @@ class ManageFreeregImagesController < ApplicationController
   end
   
   def view
-    process,message = ManageFreeregImage.check_parameters(params)
-    @image = ManageFreeregImage.create_file_location(params) if process
+    process,@message = ManageFreeregImage.check_parameters(params)
+    process,@image = ManageFreeregImage.create_file_location(params) if process
     if process
        send_file @image,  :disposition => 'inline'
     else
-      render :plain => "There was a problem with your request. #{message}"
+      flash[:notice] = "There was a problem with your request. #{@message}"
+      render '_error_message'
     end
   end
   
