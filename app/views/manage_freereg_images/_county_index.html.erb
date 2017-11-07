@@ -1,0 +1,26 @@
+<% title "Counties" %>
+<h3 style="text-align: center"><b>County Folders on the Image Sever </b>.</h3>
+<div style="clear:both;"> </div><br>
+<% if flash[:notice] %>
+  <div id="notice" style="color:blue"><br>
+  <%= flash[:notice] %>  <% flash[:notice] = nil%> <br>
+  </div>
+<% end %>
+
+<table >
+  <tr>
+    <th>County</th>
+    <th>Action</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @counties.each do |county| %>
+  <tr>
+    <td><%= county %></td>
+    <td> <%= link_to 'Show Registers', register_folders_freereg_image_path(:county => county), method: :get%></td>
+     <td></td>
+      <td></td>
+  </tr>
+<% end %>
+</table>
