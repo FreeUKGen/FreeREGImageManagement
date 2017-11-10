@@ -25,7 +25,8 @@ class ManageFreeregImagesController < ApplicationController
   # GET /manage_freereg_images
   # GET /manage_freereg_images.json
   def index
-   redirect_to :access
+    flash[:notice] = "You are not permitted to use these resources." 
+   render 'error_message'
   end
 
   # GET /manage_freereg_images/1
