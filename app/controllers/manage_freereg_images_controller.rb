@@ -2,7 +2,7 @@ class ManageFreeregImagesController < ApplicationController
   before_action :set_manage_freereg_image, only: [:show, :edit, :update, :destroy]
   
   def access
-    process,@counties = ManageFreeregImage.get_county_folders
+    process,@counties = ManageFreeregImage.get_county_folders(params)
     if process
       render '_county_index'
     else
@@ -25,14 +25,7 @@ class ManageFreeregImagesController < ApplicationController
   # GET /manage_freereg_images
   # GET /manage_freereg_images.json
   def index
-    #under development
-    process,@counties = ManageFreeregImage.get_county_folders
-    if process
-      render '_county_index'
-    else
-     flash[:notice] = "There was a problem with locating the image folder."
-     render '_error_message'
-    end
+   redirect_to :access
   end
 
   # GET /manage_freereg_images/1

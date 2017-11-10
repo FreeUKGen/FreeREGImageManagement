@@ -46,6 +46,7 @@ FreeregImageManagement::Application.configure do
   config.dataset_date = "9 November 2014"
   config.imagedirectory = FreeregImageManagement::MongoConfig['imagedirectory']
   config.website = FreeregImageManagement::MongoConfig['website']
+  config.image_server_access =  FreeregImageManagement::MongoConfig['image_server_access']
   config.backup_directory = FreeregImageManagement::MongoConfig['backup_directory']
   config.github_issues_login = FreeregImageManagement::MongoConfig['github_issues_login']
   config.github_issues_password = FreeregImageManagement::MongoConfig['github_issues_password']

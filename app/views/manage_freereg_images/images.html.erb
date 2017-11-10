@@ -16,8 +16,8 @@
 <% @images.each do |image| %>
   <tr>
     <td><%= image %></td>
-    <td> <%= link_to 'View Image', view_freereg_image_path(:chapman_code => @county, :folder_name => @register, :image_file_name => image), method: :get%></td>
-    <td> <%= link_to 'Download Image', download_freereg_image_path(:chapman_code => @county, :folder_name => @register, :image_file_name => image), method: :get%></td>
+    <td> <%= link_to 'View Image', view_freereg_image_path(:chapman_code => @county, :folder_name => @register, :image_file_name => image,:image_server_access => Rails.application.config.image_server_access), method: :get%></td>
+    <td> <%= link_to 'Download Image', download_freereg_image_path(:chapman_code => @county, :folder_name => @register, :image_file_name => image,:image_server_access => Rails.application.config.image_server_access), method: :get%></td>
     <td></td>
   </tr>
 <% end %>

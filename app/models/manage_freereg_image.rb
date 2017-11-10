@@ -37,9 +37,11 @@ class ManageFreeregImage
    
    def check_parameters(param)
        # need to add check that id userid is valid
-       process = true;        process1  = true;        process2  = true;        process3  = true;        process4  = true
+       process = true;   process0 = true;     process1  = true;        process2  = true;        process3  = true;        process4  = true
        message = ""
-       ChapmanCode.value?(param[:chapman_code]) ?  process1 = true :  process1 = false 
+       Rails.application.config.image_server_access == param[:image_server_access] ? process0 = true : process0 = false
+       message = "Access not prermitted" if !process0
+       ChapmanCode.value?(param[:chapman_code]) && process0 ?  process1 = true :  process1 = false 
        message = "Invalid Chapman Code #{param[:chapman_code]}" if !process1
        (self.check_chapman_code_folder?(param[:chapman_code]) ? process2 = true :  process2 = false) if process1
        message = message + "There is no folder for chapman code #{param[:chapman_code]}" if !process2
@@ -47,7 +49,7 @@ class ManageFreeregImage
        message = message + "There is no folder for register #{param[:folder_name]}" if !process3 
        (self.check_file?(param[:chapman_code],param[:folder_name],param[:image_file_name]) ? process4 = true : process4 = false) if process1 && process2 && process3
        message = message + "There is no file #{param[:image_file_name]}" if !process4 
-       process = false if !process1 || !process2 || !process3 || !process4
+       process = false if !process0 || !process1 || !process2 || !process3 || !process4
        return process,message
    end
    
@@ -70,9 +72,10 @@ class ManageFreeregImage
     return process,images
    end
    
-   def get_county_folders
+   def get_county_folders(param)
      #we use the test to diferentiate between the operational environment and a cloud9 test environment
      #This code is in development
+     
      Rails.application.config.website == 'https://image_management.freereg.org.uk/' ? images_directory = File.join(Rails.application.config.imagedirectory) : images_directory = File.join(Rails.root,Rails.application.config.imagedirectory)
      File.exist?(images_directory) ?  process = true : process = false 
      if process
