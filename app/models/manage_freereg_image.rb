@@ -112,20 +112,17 @@ class ManageFreeregImage
    
    def create_return_url(register,folder_name,proceed,message)
      proceed ? success = "Succeeded" : success = "Failed"
-     URI.escape(Rails.application.config.website + 'registers/create_image_server_return?register=' + register + '&folder_name=' + folder_name + '&success=' + success + '&message=' + message)
+     URI.escape(Rails.application.config.application_website + 'registers/create_image_server_return?register=' + register + '&folder_name=' + folder_name + '&success=' + success + '&message=' + message)
    end
    
    def create_upload_return_url(register,folder_name,proceed,message,image_server_group)
       proceed ? success = "Succeeded" : success = "Failed"
-     URI.escape(Rails.application.config.website + 'registers/create_image_server_return?register=' + register + '&folder_name=' + folder_name + '&success=' + success + '&message=' + message + '&image_server_group=' + image_server_group)
+     URI.escape(Rails.application.config.application_website + 'registers/create_image_server_return?register=' + register + '&folder_name=' + folder_name + '&success=' + success + '&message=' + message + '&image_server_group=' + image_server_group)
      
    end
    
    def delete_image(param)
-     p 'Deleting bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-     p param  
      Rails.application.config.website == 'https://image_management.freereg.org.uk/' ? image_location = File.join(Rails.application.config.imagedirectory,param[:chapman_code],param[:folder_name],param[:image_file_name]) : image_location =  File.join(Rails.root,Rails.application.config.imagedirectory,param[:chapman_code],param[:folder_name],param[:image_file_name])  
-     p image_location
      return true
    end
    
@@ -185,7 +182,7 @@ class ManageFreeregImage
     files_uploaded.length == 0 ? files_uploaded = ' ' : files_uploaded = files_uploaded.join('/')
     proceed = true
     message = ''
-    website = URI.escape(Rails.application.config.website + 'image_server_groups/upload_return?register=' + register + '&folder_name=' + folder_name + '&image_server_group=' + image_server_group + '&files_exist=' + files_exist + '&files_uploaded=' + files_uploaded)
+    website = URI.escape(Rails.application.config.application_website + 'image_server_groups/upload_return?register=' + register + '&folder_name=' + folder_name + '&image_server_group=' + image_server_group + '&files_exist=' + files_exist + '&files_uploaded=' + files_uploaded)
     return proceed, message, website
   end
 end
