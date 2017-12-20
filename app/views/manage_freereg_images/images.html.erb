@@ -7,17 +7,21 @@
   </div>
 <% end %>
 
-<table >
+<table  class=" table--bordered my-width table--data just--center"  style="width:50%;margin: 0 auto">
   <tr>
-    <th>Imagess</th>
+    <th>Images</th>
     <th colspan = "3">Actions</th>
   </tr>
 
 <% @images.each do |image| %>
   <tr>
     <td><%= image %></td>
-    <td> <%= link_to 'View Image', view_freereg_image_path(:chapman_code => @county, :folder_name => @register, :image_file_name => image,:image_server_access => Rails.application.config.image_server_access), method: :get%></td>
-    <td> <%= link_to 'Download Image', download_freereg_image_path(:chapman_code => @county, :folder_name => @register, :image_file_name => image,:image_server_access => Rails.application.config.image_server_access), method: :get%></td>
+    <td> <%= button_to 'View Image', view_freereg_image_path,  params: {:chapman_code => @county, :folder_name => @register, :image_file_name => image,:image_server_access => Rails.application.config.image_server_access}, method: :get, :class => 'btn'%></td>
+    <td> <%= button_to 'Download Image', download_freereg_image_path,  params: {:chapman_code => @county, :folder_name => @register, :image_file_name => image,:image_server_access => Rails.application.config.image_server_access}, method: :get, :class => 'btn'%></td>
+    <% if (session[:role] == 'data_manager' ||  session[:role] == 'system_administrator') &&  !session[:manage_user_origin] == 'manage county'%>
+    <td> <%= button_to 'Remove Image', remove_image_freereg_image_path,  params: {:chapman_code => @county, :folder_name => @register, :image_file_name => image,:image_server_access => Rails.application.config.image_server_access}, method: :get, :class => 'btn' ,
+    data: { confirm:  'Are you sure you want to remove this image?' }%> </td>
+    <% end %>
     <td></td>
   </tr>
 <% end %>

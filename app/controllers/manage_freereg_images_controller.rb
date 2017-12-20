@@ -2,6 +2,7 @@ class ManageFreeregImagesController < ApplicationController
   before_action :set_manage_freereg_image, only: [:show, :edit, :update, :destroy]
   
   def access
+    session[:role] = params[:role]
     process,@counties = ManageFreeregImage.get_county_folders(params)
     if process
       render '_county_index'
@@ -46,17 +47,30 @@ class ManageFreeregImagesController < ApplicationController
   # POST /manage_freereg_images
   # POST /manage_freereg_images.json
   def create
-    #@manage_freereg_image = ManageFreeregImage.new(manage_freereg_image_params)
-
-    respond_to do |format|
-      if @manage_freereg_image.save
-        format.html { redirect_to @manage_freereg_image, notice: 'Manage freereg image was successfully created.' }
-        format.json { render :show, status: :created, location: @manage_freereg_image }
-      else
-        format.html { render :new }
-        format.json { render json: @manage_freereg_image.errors, status: :unprocessable_entity }
-      end
+    manage_freereg_image = ManageFreeregImage.new(manage_freereg_image_params)
+    chapman_code = session[:chapman_code] 
+    folder_name = session[:folder_name]
+    register = session[:register]
+    image_server_group =  session[:image_server_group]
+    proceed, message, website = manage_freereg_image.process_upload(chapman_code,folder_name,register,image_server_group,params)
+    if proceed
+      redirect_to website and return
+    else 
+      flash[:notice] = message
+      @manage_freereg_image = ManageFreeregImage.new
+      @chapman_code = session[:chapman_code] 
+      @folder_name = session[:folder_name]
+      @register = session[:register]
+      @image_server_group =  session[:image_server_group]
+      render 'upload_images'
     end
+  end
+  
+  def create_folder
+    #entry point to create  a new register folder on the IS
+    proceed,message = ManageFreeregImage.create_county_and_register_folders(params[:chapman_code],params[:folder_name],params[:image_server_access])
+    website = ManageFreeregImage.create_return_url(params[:register],params[:folder_name],proceed,message)
+    redirect_to website and return
   end
   
   def images
@@ -76,6 +90,19 @@ class ManageFreeregImagesController < ApplicationController
       flash[:notice] = "There was a problem with locating the register folders for the county of #{@county}."
       render '_error_message'
      end
+  end
+  def remove_image
+    process = ManageFreeregImage.delete_image(params)
+    if !process
+      flash[:notice] = "There was a problem with deleting the image locating the register folders for the county of #{params[:county]}"
+      render '_error_message'
+    else
+       process,@images = ManageFreeregImage.get_images(params[:chapman_code], params[:folder_name])
+       flash[:notice] = "Image removed"
+       @county = params[:county]
+       @register = params[:register]
+       render 'images' and return
+    end
   end
 
   # PATCH/PUT /manage_freereg_images/1
@@ -102,6 +129,20 @@ class ManageFreeregImagesController < ApplicationController
     end
   end
   
+  def upload_images
+    session[:register] = params[:register]
+    session[:folder_name] = params[:folder_name]
+    session[:chapman_code] = params[:chapman_code]
+    session[:image_server_group] = params[:group_id]
+    @place = params[:place]
+    @manage_freereg_image = ManageFreeregImage.new
+    @chapman_code = session[:chapman_code] 
+    @folder_name = session[:folder_name]
+    @register_type = params[:register_type]
+    @church = params[:church]
+    @image_server_group =  session[:image_server_group]
+  end
+  
   def view
     process,@message = ManageFreeregImage.check_parameters(params)
     process,@image = ManageFreeregImage.create_file_location(params) if process
@@ -113,6 +154,8 @@ class ManageFreeregImagesController < ApplicationController
     end
   end
   
+  
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -122,6 +165,6 @@ class ManageFreeregImagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def manage_freereg_image_params
-      params.fetch(:manage_freereg_image, {})
+      params.require(:manage_freereg_image).permit!
     end
 end
