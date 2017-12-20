@@ -178,8 +178,8 @@ class ManageFreeregImage
         files_uploaded << file_parts[1]
       end
     end
-    files_exist.length == 0 ? files_exist = ' ' : files_exist = files_exist.join('/')
-    files_uploaded.length == 0 ? files_uploaded = ' ' : files_uploaded = files_uploaded.join('/')
+    files_exist.length == 0 ? files_exist = ' ' : files_exist = files_exist.join('/ ')
+    files_uploaded.length == 0 ? files_uploaded = ' ' : files_uploaded = files_uploaded.join('/ ')
     proceed = true
     message = ''
     website = URI.escape(Rails.application.config.application_website + 'image_server_groups/upload_return?register=' + register + '&folder_name=' + folder_name + '&image_server_group=' + image_server_group + '&files_exist=' + files_exist + '&files_uploaded=' + files_uploaded)
