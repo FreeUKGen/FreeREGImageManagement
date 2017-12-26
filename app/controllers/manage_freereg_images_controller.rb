@@ -12,40 +12,6 @@ class ManageFreeregImagesController < ApplicationController
     end 
   end
   
-  def download
-    process,message = ManageFreeregImage.check_parameters(params)
-    process,@image = ManageFreeregImage.create_file_location(params) if process
-    if process
-       send_file @image
-    else
-     flash[:notice] = "There was a problem with your request. #{message}"
-     render '_error_message'
-    end
-  end
-
-  # GET /manage_freereg_images
-  # GET /manage_freereg_images.json
-  def index
-    flash[:notice] = "You are not permitted to use these resources." 
-   render '_error_message'
-  end
-
-  # GET /manage_freereg_images/1
-  # GET /manage_freereg_images/1.json
-  def show
-  end
-
-  # GET /manage_freereg_images/new
-  def new
-    #@manage_freereg_image = ManageFreeregImage.new
-  end
-
-  # GET /manage_freereg_images/1/edit
-  def edit
-  end
-
-  # POST /manage_freereg_images
-  # POST /manage_freereg_images.json
   def create
     manage_freereg_image = ManageFreeregImage.new(manage_freereg_image_params)
     chapman_code = session[:chapman_code] 
@@ -73,6 +39,26 @@ class ManageFreeregImagesController < ApplicationController
     redirect_to website and return
   end
   
+  def destroy
+    @manage_freereg_image.destroy
+    respond_to do |format|
+      format.html { redirect_to manage_freereg_images_url, notice: 'Manage freereg image was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+  
+  
+  def download
+    process,message = ManageFreeregImage.check_parameters(params)
+    process,@image = ManageFreeregImage.create_file_location(params) if process
+    if process
+       send_file @image
+    else
+     flash[:notice] = "There was a problem with your request. #{message}"
+     render '_error_message'
+    end
+  end
+
   def images
     @county = params[:county]
     @register = params[:register]
@@ -83,6 +69,12 @@ class ManageFreeregImagesController < ApplicationController
      end
   end
   
+  def index
+    flash[:notice] = "You are not permitted to use these resources." 
+   render '_error_message'
+  end
+  
+  
   def register_folders
     @county = params[:county]
     process,@registers = ManageFreeregImage.get_register_folders(@county)
@@ -91,6 +83,8 @@ class ManageFreeregImagesController < ApplicationController
       render '_error_message'
      end
   end
+  
+  
   def remove_image
     process = ManageFreeregImage.delete_image(params)
     if !process
@@ -105,8 +99,6 @@ class ManageFreeregImagesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /manage_freereg_images/1
-  # PATCH/PUT /manage_freereg_images/1.json
   def update
     respond_to do |format|
       if @manage_freereg_image.update(manage_freereg_image_params)
@@ -119,16 +111,6 @@ class ManageFreeregImagesController < ApplicationController
     end
   end
 
-  # DELETE /manage_freereg_images/1
-  # DELETE /manage_freereg_images/1.json
-  def destroy
-    @manage_freereg_image.destroy
-    respond_to do |format|
-      format.html { redirect_to manage_freereg_images_url, notice: 'Manage freereg image was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-  
   def upload_images
     session[:register] = params[:register]
     session[:folder_name] = params[:folder_name]
@@ -153,8 +135,6 @@ class ManageFreeregImagesController < ApplicationController
       render '_error_message'
     end
   end
-  
-  
   
 
   private
