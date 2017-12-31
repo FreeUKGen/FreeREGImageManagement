@@ -1,0 +1,8 @@
+<% title "Close" %>
+<h3 style="text-align: center"><b>You should now close this tab on your browser. </b></h3>
+<div style="clear:both;"> </div><br>
+<% if flash[:notice] %>
+  <div id="notice" style="color:blue"><br>
+  <%= flash[:notice] %>  <% flash[:notice] = nil%> <br>
+  </div>
+<% end %>
