@@ -120,8 +120,10 @@ class ManageFreeregImage
    end
    
    def create_or_use_thumbnail_folders(chapman_code,register)
-     Rails.application.config.website == 'https://image_management.freereg.org.uk/' ? chapman_folder = File.join('public/images',chapman_code) : chapman_folder = File.join(Rails.root,'public/images',chapman_code)
-     Rails.application.config.website == 'https://image_management.freereg.org.uk/' ? register_output = File.join('public/images',chapman_code,register) : register_output = File.join(Rails.root,'public/images',chapman_code,register)
+     #Rails.application.config.website == 'https://image_management.freereg.org.uk/' ? chapman_folder = File.join('public/images',chapman_code) : chapman_folder = File.join(Rails.root,'public/images',chapman_code)
+     #Rails.application.config.website == 'https://image_management.freereg.org.uk/' ? register_output = File.join('public/images',chapman_code,register) : register_output = File.join(Rails.root,'public/images',chapman_code,register)
+     chapman_folder = File.join(Rails.root,'public/images',chapman_code)
+     register_output = File.join(Rails.root,'public/images',chapman_code,register)
      if !File.exist?(chapman_folder)
        Dir.mkdir( chapman_folder )
      end
