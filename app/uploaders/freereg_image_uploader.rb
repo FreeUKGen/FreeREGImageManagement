@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 class FreeregImageUploader < CarrierWave::Uploader::Base
+  include CarrierWave::MiniMagick
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
@@ -42,8 +43,8 @@ class FreeregImageUploader < CarrierWave::Uploader::Base
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
-  def extension_white_list
-    %w(jpg jpeg gif pdf txt doc docx tiff )
+  def extension_whitelist
+    %w( jpg jpeg pdf txt png tif tiff rtf doc docx)
   end
 
   # Override the filename of the uploaded files:

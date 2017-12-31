@@ -1,5 +1,5 @@
 <% title "Register Folders" %>
-<h3 style="text-align: center"><b>Register Folders on the Image Sever for <%= @county%> </b>.</h3>
+<h3 style="text-align: center"><b>Register Folders on the Image Sever for <%= @county%></b>.</h3>
 <div style="clear:both;"> </div><br>
 <% if flash[:notice] %>
   <div id="notice" style="color:blue"><br>
@@ -9,7 +9,7 @@
 
 <table  class=" table--bordered my-width table--data just--center"  style="width:50%;margin: 0 auto">
   <tr>
-    <th>Register Foldery</th>
+    <th>Register Folders</th>
     <th>Action</th>
     <th></th>
     <th></th>
@@ -24,3 +24,6 @@
   </tr>
 <% end %>
 </table>
+<script type="text/javascript">
+      Ladda.bind( 'input[type=submit]' );
+</script>

@@ -3,20 +3,20 @@ class ManageFreeregImagesController < ApplicationController
   
   def access
     session[:role] = params[:role]
+    @chapman_code = params[:chapman_code]
     process,@counties = ManageFreeregImage.get_county_folders(params)
-    if process
-      render '_county_index'
-    else
-     flash[:notice] = "There was a problem with locating the image folder."
-     render '_error_message'
+    if !process
+      flash[:notice] = "There was a problem with locating the image folder."
+      render '_error_message'
     end 
   end
   
   def create
     manage_freereg_image = ManageFreeregImage.new(manage_freereg_image_params)
-    chapman_code = session[:chapman_code] 
-    folder_name = session[:folder_name]
-    register = session[:register]
+    parameters = session[:params]
+    chapman_code = parameters["chapman_code"] 
+    folder_name = parameters["folder_name"]
+    register = parameters["register"]
     image_server_group =  session[:image_server_group]
     proceed, message, website = manage_freereg_image.process_upload(chapman_code,folder_name,register,image_server_group,params)
     if proceed
@@ -24,9 +24,13 @@ class ManageFreeregImagesController < ApplicationController
     else 
       flash[:notice] = message
       @manage_freereg_image = ManageFreeregImage.new
-      @chapman_code = session[:chapman_code] 
-      @folder_name = session[:folder_name]
-      @register = session[:register]
+      parameters = session[:params]
+      @chapman_code = parameters["chapman_code"] 
+      @folder_name = parameters["folder_name"]
+      @register = parameters["register"]
+      @church = parameters["church"]
+      @register_type = parameters["register_type"]
+      @place = parameters["place"]
       @image_server_group =  session[:image_server_group]
       render 'upload_images'
     end
@@ -62,11 +66,11 @@ class ManageFreeregImagesController < ApplicationController
   def images
     @county = params[:county]
     @register = params[:register]
-    process,@images = ManageFreeregImage.get_images(@county, @register )
-     if !process
+    process,@images,@thumbnails = ManageFreeregImage.get_images_and_get_or_create_thumbnails(@county, @register )
+    if !process
       flash[:notice] = "There was a problem with locating the images for the register folder #{@register}  for the county of #{@county}."
       render '_error_message'
-     end
+    end
   end
   
   def index
@@ -78,10 +82,10 @@ class ManageFreeregImagesController < ApplicationController
   def register_folders
     @county = params[:county]
     process,@registers = ManageFreeregImage.get_register_folders(@county)
-     if !process
+    if !process
       flash[:notice] = "There was a problem with locating the register folders for the county of #{@county}."
       render '_error_message'
-     end
+    end
   end
   
   
@@ -112,14 +116,11 @@ class ManageFreeregImagesController < ApplicationController
   end
 
   def upload_images
-    session[:register] = params[:register]
-    session[:folder_name] = params[:folder_name]
-    session[:chapman_code] = params[:chapman_code]
-    session[:image_server_group] = params[:group_id]
+    session[:params] = params
     @place = params[:place]
     @manage_freereg_image = ManageFreeregImage.new
-    @chapman_code = session[:chapman_code] 
-    @folder_name = session[:folder_name]
+    @chapman_code = params[:chapman_code] 
+    @folder_name = params[:folder_name]
     @register_type = params[:register_type]
     @church = params[:church]
     @image_server_group =  session[:image_server_group]
