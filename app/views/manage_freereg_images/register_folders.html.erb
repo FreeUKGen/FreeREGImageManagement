@@ -1,12 +1,16 @@
 <% title "Register Folders" %>
 <h3 style="text-align: center"><b>Register Folders on the Image Sever for <%= @county%></b>.</h3>
-<div style="clear:both;"> </div><br>
+<div  class="text--center"> 
+ <%= link_to 'Finished', close_freereg_image_path, method: :get,data: { confirm: 'Are you sure yoyu are finished?' }, :class => "btn weight--light btn--small" %> 
+  <%= link_to 'Counties', access_freereg_image_path(:chapman_code => session[:county_chapman_code]), method: :get, :class => "btn weight--light btn--small" %> 
+</div>
+
 <% if flash[:notice] %>
   <div id="notice" style="color:blue"><br>
   <%= flash[:notice] %>  <% flash[:notice] = nil%> <br>
   </div>
 <% end %>
-
+<div style="clear:both;"> </div><br>
 <table  class=" table--bordered my-width table--data just--center"  style="width:50%;margin: 0 auto">
   <tr>
     <th>Register Folders</th>

@@ -4,11 +4,20 @@ class ManageFreeregImagesController < ApplicationController
   def access
     session[:role] = params[:role]
     @chapman_code = params[:chapman_code]
+    session[:county_chapman_code] =  @chapman_code
+    p session[:county_chapman_code]
     process,@counties = ManageFreeregImage.get_county_folders(params)
     if !process
       flash[:notice] = "There was a problem with locating the image folder."
       render '_error_message'
     end 
+  end
+  
+  def close
+    session.delete(:role)
+    session.delete(:params)
+    session.delete(:county_chapman_code)
+    session.delete(:register_chapman_code)
   end
   
   def create
@@ -78,9 +87,10 @@ class ManageFreeregImagesController < ApplicationController
    render '_error_message'
   end
   
-  
   def register_folders
+    p session[:county_chapman_code]
     @county = params[:county]
+    session[:register_chapman_code] =    @county
     process,@registers = ManageFreeregImage.get_register_folders(@county)
     if !process
       flash[:notice] = "There was a problem with locating the register folders for the county of #{@county}."
