@@ -44,7 +44,7 @@ class FreeregImageUploader < CarrierWave::Uploader::Base
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_whitelist
-    %w( jpg jpeg pdf txt png tif tiff rtf doc docx)
+    %w( jpg jpeg pdf txt png tif tiff rtf doc docx csv xls xlsx)
   end
 
   # Override the filename of the uploaded files:

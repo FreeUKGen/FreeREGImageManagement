@@ -11,7 +11,7 @@
  <div  style="text-align: center">
 <%= form_for(@manage_freereg_image, :html => {:multipart => true}) do |f| %>
  <%= f.file_field :freereg_images, multiple: true, class: "btn"  %><br><br>
-  <div class="actions">
+  <div class="ladda-label">
     <%= f.submit  'Upload', class: 'ladda-button' , "data-style" => "contract" ,"data-color" =>"green" , "data-size" => "s", "data-spinner-color" => "#ffffff"    %>
   </div>
 <% end %>
