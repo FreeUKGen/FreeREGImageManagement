@@ -5,7 +5,6 @@ class ManageFreeregImagesController < ApplicationController
     session[:role] = params[:role]
     @chapman_code = params[:chapman_code]
     session[:county_chapman_code] =  @chapman_code
-    p session[:county_chapman_code]
     process,@counties = ManageFreeregImage.get_county_folders(params)
     if !process
       flash[:notice] = "There was a problem with locating the image folder."
@@ -26,7 +25,7 @@ class ManageFreeregImagesController < ApplicationController
     chapman_code = parameters["chapman_code"] 
     folder_name = parameters["folder_name"]
     register = parameters["register"]
-    image_server_group =  session[:image_server_group]
+    image_server_group =  parameters["group_id"]
     proceed, message, website = manage_freereg_image.process_upload(chapman_code,folder_name,register,image_server_group,params)
     if proceed
       redirect_to website and return
@@ -40,7 +39,7 @@ class ManageFreeregImagesController < ApplicationController
       @church = parameters["church"]
       @register_type = parameters["register_type"]
       @place = parameters["place"]
-      @image_server_group =  session[:image_server_group]
+      @image_server_group =  parameters["group_id"]
       render 'upload_images'
     end
   end
@@ -133,7 +132,7 @@ class ManageFreeregImagesController < ApplicationController
     @folder_name = params[:folder_name]
     @register_type = params[:register_type]
     @church = params[:church]
-    @image_server_group =  session[:image_server_group]
+    @image_server_group =  params[:group_id]
   end
   
   def view
