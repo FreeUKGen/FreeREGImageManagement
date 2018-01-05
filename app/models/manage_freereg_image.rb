@@ -151,14 +151,8 @@ class ManageFreeregImage
      return my_image
    end
    
-   
-   def create_upload_return_url(register,folder_name,proceed,message,image_server_group)
-      proceed ? success = "Succeeded" : success = "Failed"
-     URI.escape(Rails.application.config.application_website + 'registers/create_image_server_return?register=' + register + '&folder_name=' + folder_name + '&success=' + success + '&message=' + message + '&image_server_group=' + image_server_group)
-     
-   end
-   
    def delete_image(param)
+       #needs to be coded
      Rails.application.config.website == 'https://image_management.freereg.org.uk/' ? image_location = File.join(Rails.application.config.imagedirectory,param[:chapman_code],param[:folder_name],param[:image_file_name]) : image_location =  File.join(Rails.root,Rails.application.config.imagedirectory,param[:chapman_code],param[:folder_name],param[:image_file_name])  
      return true
    end

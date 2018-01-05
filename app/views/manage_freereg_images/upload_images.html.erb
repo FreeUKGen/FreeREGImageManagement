@@ -12,11 +12,15 @@
 <%= form_for(@manage_freereg_image, :html => {:multipart => true}) do |f| %>
  <%= f.file_field :freereg_images, multiple: true, class: "btn"  %><br><br>
   <div class="ladda-label">
-    <%= f.submit  'Upload', class: 'ladda-button' , "data-style" => "contract" ,"data-color" =>"green" , "data-size" => "s", "data-spinner-color" => "#ffffff"    %>
+    <button type="submit" class="ladda-button" data-style= "contract" data-color="green" data-size= "l" data-spinner-color= "#ffffff"><span class="ladda-label">Upload</span></button> 
+ 
   </div>
 <% end %>
 </div>
+
+<script src= "/assets/spin.min.js"></script>
+<script src= "/assets/ladda.min.js"></script>
 <script type="text/javascript">
-      Ladda.bind( 'input[type=submit]' );
+      Ladda.bind( '.ladda-button' );
 </script>
 

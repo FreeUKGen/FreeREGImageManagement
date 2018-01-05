@@ -25,10 +25,8 @@
     <td> <%= image_tag(@thumbnails[ image ]) unless@thumbnails[ image ].nil? %></td>
     <td> <%= button_to 'View Image', view_freereg_image_path,  params: {:chapman_code => @county, :folder_name => @register, :image_file_name => image,:image_server_access => Rails.application.config.image_server_access}, method: :get, :class => 'btn'%></td>
     <td> <%= button_to 'Download Image', download_freereg_image_path,  params: {:chapman_code => @county, :folder_name => @register, :image_file_name => image,:image_server_access => Rails.application.config.image_server_access}, method: :get, :class => 'btn'%></td>
-    <% if (session[:role] == 'data_manager' ||  session[:role] == 'system_administrator') &&  !session[:manage_user_origin] == 'manage county'%>
     <td> <%= button_to 'Remove Image', remove_image_freereg_image_path,  params: {:chapman_code => @county, :folder_name => @register, :image_file_name => image,:image_server_access => Rails.application.config.image_server_access}, method: :get, :class => 'btn' ,
-    data: { confirm:  'Are you sure you want to remove this image?' }%> </td>
-    <% end %>
+    data: { confirm:  'Are you sure you want to remove this image?' } if do_we_offer_the_delete_action %> </td>
     <td></td>
   </tr>
 <% end %>
