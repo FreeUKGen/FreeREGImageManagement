@@ -21,7 +21,7 @@ class ManageFreeregImagesController < ApplicationController
   end
   
   def create
-    ManageFreeregImage.manage_freereg_image = ManageFreeregImage.new(manage_freereg_image_params)
+    manage_freereg_image = ManageFreeregImage.new(manage_freereg_image_params)
     parameters = session[:params]
     chapman_code = parameters["chapman_code"] 
     folder_name = parameters["folder_name"]
