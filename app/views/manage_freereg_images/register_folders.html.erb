@@ -2,7 +2,7 @@
 <h3 style="text-align: center"><b>Register Folders on the Image Sever for <%= @county%></b>.</h3>
 <div  class="text--center"> 
  <%= link_to 'Finished', close_freereg_image_path, method: :get,data: { confirm: 'Are you sure yoyu are finished?' }, :class => "btn weight--light btn--small" %> 
-  <%= link_to 'Counties', access_freereg_image_path(:chapman_code => session[:county_chapman_code]), method: :get, :class => "btn weight--light btn--small" %> 
+  <%= link_to 'Counties', access_freereg_image_path(:chapman_code => session[:county_chapman_code], :image_server_access => Rails.application.config.image_server_access ), method: :get, :class => "btn weight--light btn--small" %> 
 </div>
 
 <% if flash[:notice] %>

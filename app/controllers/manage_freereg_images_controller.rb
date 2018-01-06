@@ -2,6 +2,7 @@ class ManageFreeregImagesController < ApplicationController
   before_action :set_manage_freereg_image, only: [:show, :edit, :update, :destroy]
   
   def access
+    ManageFreeregImage.access_permitted?( params[:image_server_access]) 
     session[:role] = params[:role]
     @chapman_code = params[:chapman_code]
     session[:county_chapman_code] =  @chapman_code
@@ -20,7 +21,7 @@ class ManageFreeregImagesController < ApplicationController
   end
   
   def create
-    manage_freereg_image = ManageFreeregImage.new(manage_freereg_image_params)
+    ManageFreeregImage.manage_freereg_image = ManageFreeregImage.new(manage_freereg_image_params)
     parameters = session[:params]
     chapman_code = parameters["chapman_code"] 
     folder_name = parameters["folder_name"]
@@ -45,20 +46,12 @@ class ManageFreeregImagesController < ApplicationController
   end
   
   def create_folder
+    ManageFreeregImage.access_permitted?( params[:image_server_access]) 
     #entry point to create  a new register folder on the IS
-    proceed,message = ManageFreeregImage.create_county_and_register_folders(params[:chapman_code],params[:folder_name],params[:image_server_access])
+    proceed,message = ManageFreeregImage.create_county_and_register_folders(params[:chapman_code],params[:folder_name])
     website = ManageFreeregImage.create_return_url(params[:register],params[:folder_name],proceed,message)
     redirect_to website and return
   end
-  
-  def destroy
-    @manage_freereg_image.destroy
-    respond_to do |format|
-      format.html { redirect_to manage_freereg_images_url, notice: 'Manage freereg image was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-  
   
   def download
     process,message = ManageFreeregImage.check_parameters(params)
@@ -87,7 +80,6 @@ class ManageFreeregImagesController < ApplicationController
   end
   
   def register_folders
-    p session[:county_chapman_code]
     @county = params[:county]
     session[:register_chapman_code] =    @county
     process,@registers = ManageFreeregImage.get_register_folders(@county)
@@ -99,17 +91,15 @@ class ManageFreeregImagesController < ApplicationController
   
   
   def remove_image
-    process = ManageFreeregImage.delete_image(params)
+    ManageFreeregImage.access_permitted?( params[:image_server_access]) 
+    process,message = ManageFreeregImage.delete_image(params)
     if !process
-      flash[:notice] = "There was a problem with deleting the image locating the register folders for the county of #{params[:county]}"
-      render '_error_message'
+      notice = "There was a problem with deleting the image because #{message}"
     else
-       process,@images = ManageFreeregImage.get_images(params[:chapman_code], params[:folder_name])
-       flash[:notice] = "Image removed"
-       @county = params[:county]
-       @register = params[:register]
-       render 'images' and return
+       notice = "Image removed"
     end
+     website = ManageFreeregImage.create_return_url_after_image_delete(params[:image_server_group_id],params[:image_file_name],message)
+     redirect_to website
   end
 
   def update
@@ -125,6 +115,7 @@ class ManageFreeregImagesController < ApplicationController
   end
 
   def upload_images
+    ManageFreeregImage.access_permitted?( params[:image_server_access]) 
     session[:params] = params
     @place = params[:place]
     @manage_freereg_image = ManageFreeregImage.new

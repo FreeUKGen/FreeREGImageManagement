@@ -9,7 +9,11 @@ class ManageFreeregImage
   mount_uploaders :freereg_images, FreeregImageUploader    
     
   class << self 
-   #include Mongoid::Document 
+   def access_permitted?(access)
+     self.crash unless Rails.application.config.image_server_access == access
+     true 
+   end
+   
    def check_chapman_code_folder?(chapman_code)
        process = true
        Rails.application.config.website == 'https://image_management.freereg.org.uk/' ? image_directory = File.join(Rails.application.config.imagedirectory)  :image_directory = File.join(Rails.root,Rails.application.config.imagedirectory)
@@ -72,8 +76,6 @@ class ManageFreeregImage
        # need to add check that id userid is valid
        process = true;   process0 = true;     process1  = true;        process2  = true;        process3  = true;        process4  = true
        message = ""
-       Rails.application.config.image_server_access == param[:image_server_access] ? process0 = true : process0 = false
-       message = "Access not prermitted" if !process0
        ChapmanCode.value?(param[:chapman_code]) && process0 ?  process1 = true :  process1 = false 
        message = "Invalid Chapman Code #{param[:chapman_code]}" if !process1
        (self.check_chapman_code_folder?(param[:chapman_code]) ? process2 = true :  process2 = false) if process1
@@ -93,13 +95,8 @@ class ManageFreeregImage
         new_image_name
    end
    
-   def create_county_and_register_folders(chapman_code,folder_name,image_server_access)
+   def create_county_and_register_folders(chapman_code,folder_name)
      #check if chapman exists if so use, if not create then create the register folder error if it does
-     Rails.application.config.image_server_access == image_server_access ? process0 = true : process0 = false
-     if !process0
-       message = "Access not prermitted"
-       proceed = false
-     else
          message1 = ""
          proceed1,message1 =  self.check_or_create_chapman_code_folder(chapman_code)
          proceed2 = false
@@ -107,7 +104,6 @@ class ManageFreeregImage
          proceed2,message2 = self.check_or_create_register_folder(chapman_code,folder_name) if proceed1
          proceed1 && proceed2 ? proceed = true : proceed = false
          message = message1 + " " + message2
-     end 
      return proceed, message
    end
    
@@ -138,6 +134,10 @@ class ManageFreeregImage
      URI.escape(Rails.application.config.application_website + 'registers/create_image_server_return?register=' + register + '&folder_name=' + folder_name + '&success=' + success + '&message=' + message)
    end
    
+   def create_return_url_after_image_delete(image_server_group_id,image_file_name,message)
+     URI.escape(Rails.application.config.application_website + 'image_server_images/return_from_image_deletion?image_server_group_id=' + image_server_group_id + '&image_file_name=' + image_file_name + '&message=' + message)
+   end
+   
    
    def create_thumbnail(register_folder,register_output,my_image)
      image_location = File.join(register_folder,my_image)
@@ -152,9 +152,14 @@ class ManageFreeregImage
    end
    
    def delete_image(param)
-       #needs to be coded
      Rails.application.config.website == 'https://image_management.freereg.org.uk/' ? image_location = File.join(Rails.application.config.imagedirectory,param[:chapman_code],param[:folder_name],param[:image_file_name]) : image_location =  File.join(Rails.root,Rails.application.config.imagedirectory,param[:chapman_code],param[:folder_name],param[:image_file_name])  
-     return true
+     message = 'No file'
+     File.exist?(image_location) ?  process = true : process = false 
+     if process
+       File.delete(image_location)
+       message = 'File deleted'
+     end
+     return process,message
    end
    
    
