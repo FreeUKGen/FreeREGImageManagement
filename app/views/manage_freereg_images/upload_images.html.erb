@@ -1,10 +1,10 @@
 <% title "Upload Images" %>
 <% if flash[:notice] %>
   <div id="notice" style="color:red">
- 
-  <div Style="  text-align: center ">
+ <br>
+  <h3 Style="  text-align: center ">
     <%= flash[:notice] %><% flash.clear %>
-  </div></div><br>
+  </h3></div><br>
 <% end %>
 <h3 style="text-align: center">Upload Freereg Images Files for <%= @chapman_code%>,  <%= @place%>, <%= @church%>, Register Type of <%= @register_type%> </h3>
 <h4 style="text-align: center">To be stored in the folder   <%= @chapman_code%>/<%= @folder_name %> on the Image Server</h4>

@@ -238,27 +238,41 @@ class ManageFreeregImage
       message = "One or more of the images being uploaded had an invalid file type"
       website = ''
     else
-      cache_parts = self.freereg_images_cache.split(',')
-      cache_parts.each do |cach|
-        cache_file = cach.gsub(/\[/,'').gsub(/\]/,'').gsub(/\"/, '').gsub(/\\/,'')
-        file_parts = cache_file.split('/')
-        (Rails.application.config.website == 'https://image_management.freereg.org.uk/') ? to = File.join(Rails.application.config.imagedirectory,chapman_code,folder_name,file_parts[1])  : to   = File.join(Rails.root,Rails.application.config.imagedirectory,chapman_code,folder_name,file_parts[1]) 
-        if File.exist?(to)
-          files_exist << file_parts[1]
-        else
-          from =  File.join(Rails.root,'public', 'carrierwave',cache_file)
-          FileUtils.mv(from,to,:verbose => true)
-          files_uploaded << file_parts[1]
+      if self.process_upload_check_length
+        cache_parts = self.freereg_images_cache.split(',')
+        cache_parts.each do |cach|
+          cache_file = cach.gsub(/\[/,'').gsub(/\]/,'').gsub(/\"/, '').gsub(/\\/,'')
+          file_parts = cache_file.split('/')
+          (Rails.application.config.website == 'https://image_management.freereg.org.uk/') ? to = File.join(Rails.application.config.imagedirectory,chapman_code,folder_name,file_parts[1])  : to   = File.join(Rails.root,Rails.application.config.imagedirectory,chapman_code,folder_name,file_parts[1]) 
+          if File.exist?(to)
+            files_exist << file_parts[1]
+          else
+            from =  File.join(Rails.root,'public', 'carrierwave',cache_file)
+            FileUtils.mv(from,to,:verbose => true)
+            files_uploaded << file_parts[1]
+          end
         end
-      end
       files_exist.length == 0 ? files_exist = ' ' : files_exist = files_exist.join('/ ')
       files_uploaded.length == 0 ? files_uploaded = ' ' : files_uploaded = files_uploaded.join('/ ')
       proceed = true
       message = ''
       website = URI.escape(Rails.application.config.application_website + 'image_server_groups/upload_return?register=' + register + '&folder_name=' + folder_name + '&image_server_group=' + image_server_group + '&files_exist=' + files_exist.to_s + '&files_uploaded=' + files_uploaded.to_s)
+    else
+      proceed = false
+      message = "There were too many files in combination with their names for the upload to succeed"
+      website = ''  
+    end
     end
     return proceed, message, website
   end
-  
-  
+  def process_upload_check_length
+    characters = 0
+    cache_parts = self.freereg_images_cache.split(',')
+    cache_parts.each do |cach|
+      cache_file = cach.gsub(/\[/,'').gsub(/\]/,'').gsub(/\"/, '').gsub(/\\/,'')
+      file_parts = cache_file.split('/')
+      characters = characters + file_parts[1].to_s.length
+    end
+    characters <= 1500 ? process = true : process = false
+  end
 end
