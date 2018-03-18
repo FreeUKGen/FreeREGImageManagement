@@ -273,6 +273,6 @@ class ManageFreeregImage
       file_parts = cache_file.split('/')
       characters = characters + file_parts[1].to_s.length
     end
-    characters <= 1500 ? process = true : process = false
+    characters <= 1800 ? process = true : process = false
   end
 end
