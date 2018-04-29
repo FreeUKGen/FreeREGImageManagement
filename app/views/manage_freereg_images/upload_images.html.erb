@@ -6,7 +6,7 @@
     <%= flash[:notice] %><% flash.clear %>
   </h3></div><br>
 <% end %>
-<h3 style="text-align: center">Upload Freereg Images Files for <%= @chapman_code%>,  <%= @place%>, <%= @church%>, Register Type of <%= @register_type%> with Image Server Group <%= @image_server_group%> </h3>
+<h3 style="text-align: center">Upload Freereg Images Files for <%= @chapman_code%>,  <%= @place%>, <%= @church%>, Register Type of <%= @register_type%> with Image Server Group <%= @image_server_group_name%> </h3>
 <h4 style="text-align: center">To be stored in the folder   <%= @chapman_code%>/<%= @folder_name %> on the Image Server</h4>
  <div  style="text-align: center">
 <%= form_for(@manage_freereg_image, :html => {:multipart => true}) do |f| %>
