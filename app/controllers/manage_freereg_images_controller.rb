@@ -124,7 +124,7 @@ class ManageFreeregImagesController < ApplicationController
     @register_type = params[:register_type]
     @church = params[:church]
     @image_server_group =  params[:group_id]
-    params[:group_name].present? ? @image_server_group_name =  params[:group_name] : @image_server_group_name = ""
+    params[:image_server_group_name].present? ? @image_server_group_name =  params[:image_server_group_name] : @image_server_group_name = ""
   end
   
   def view
