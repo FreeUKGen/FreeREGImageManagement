@@ -21,6 +21,9 @@ class ManageFreeregImagesController < ApplicationController
   end
   
   def create
+    p 'create'
+    p request.referer
+    p URI(request.referer).host
     manage_freereg_image = ManageFreeregImage.new(manage_freereg_image_params)
     parameters = session[:params]
     chapman_code = parameters["chapman_code"] 
@@ -115,6 +118,9 @@ class ManageFreeregImagesController < ApplicationController
   end
 
   def upload_images
+    p 'upload before create'
+    p request.referer
+    p URI(request.referer).host
     ManageFreeregImage.access_permitted?( params[:image_server_access]) 
     session[:params] = params
     @place = params[:place]
