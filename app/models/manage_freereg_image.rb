@@ -130,13 +130,13 @@ class ManageFreeregImage
    end
    
    def create_return_url(host,register,folder_name,proceed,message)
-     host = Rails.application.config.website
+     host = Rails.application.config.application_website
      proceed ? success = "Succeeded" : success = "Failed"
      URI.escape(host + 'registers/create_image_server_return?register=' + register + '&folder_name=' + folder_name + '&success=' + success + '&message=' + message)
    end
    
    def create_return_url_after_image_delete(host,image_server_group_id,image_file_name,message)
-      host = Rails.application.config.website
+      host = Rails.application.config.application_website
      URI.escape(host + 'image_server_images/return_from_image_deletion?image_server_group_id=' + image_server_group_id + '&image_file_name=' + image_file_name + '&message=' + message)
    end
    
@@ -259,7 +259,7 @@ class ManageFreeregImage
       proceed = true
       message = ''
       
-      website = URI.escape(Rails.application.config.website + 'image_server_groups/upload_return?register=' + register + '&folder_name=' + folder_name + '&image_server_group=' + image_server_group + '&files_exist=' + files_exist.to_s + '&files_uploaded=' + files_uploaded.to_s)
+      website = URI.escape(Rails.application.config.application_website + 'image_server_groups/upload_return?register=' + register + '&folder_name=' + folder_name + '&image_server_group=' + image_server_group + '&files_exist=' + files_exist.to_s + '&files_uploaded=' + files_uploaded.to_s)
     else
       proceed = false
       message = "There were too many files in combination with their names for the upload to succeed"
