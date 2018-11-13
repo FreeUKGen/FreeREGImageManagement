@@ -2,6 +2,7 @@ class ManageFreeregImagesController < ApplicationController
   before_action :set_manage_freereg_image, only: [:show, :edit, :update, :destroy]
   
   def access
+    cookies.signed[:Administrator] = Rails.application.config.github_issues_password
     ManageFreeregImage.access_permitted?( params[:image_server_access]) 
     session[:role] = params[:role]
     @chapman_code = params[:chapman_code]
@@ -46,6 +47,7 @@ class ManageFreeregImagesController < ApplicationController
   end
   
   def create_folder
+    cookies.signed[:Administrator] = Rails.application.config.github_issues_password
     ManageFreeregImage.access_permitted?( params[:image_server_access]) 
     #entry point to create  a new register folder on the IS
     proceed,message = ManageFreeregImage.create_county_and_register_folders(params[:chapman_code],params[:folder_name])
@@ -54,6 +56,7 @@ class ManageFreeregImagesController < ApplicationController
   end
   
   def download
+    cookies.signed[:Administrator] = Rails.application.config.github_issues_password
     process,message = ManageFreeregImage.check_parameters(params)
     process,@image = ManageFreeregImage.create_file_location(params) if process
     if process
@@ -65,6 +68,7 @@ class ManageFreeregImagesController < ApplicationController
   end
 
   def images
+    cookies.signed[:Administrator] = Rails.application.config.github_issues_password
     @county = params[:county]
     @register = params[:register]
     process,@images,@thumbnails = ManageFreeregImage.get_images_and_get_or_create_thumbnails(@county, @register )
@@ -80,6 +84,7 @@ class ManageFreeregImagesController < ApplicationController
   end
   
   def register_folders
+    cookies.signed[:Administrator] = Rails.application.config.github_issues_password
     @county = params[:county]
     session[:register_chapman_code] =    @county
     process,@registers = ManageFreeregImage.get_register_folders(@county)
@@ -91,6 +96,7 @@ class ManageFreeregImagesController < ApplicationController
   
   
   def remove_image
+    cookies.signed[:Administrator] = Rails.application.config.github_issues_password
     ManageFreeregImage.access_permitted?( params[:image_server_access]) 
     process,message = ManageFreeregImage.delete_image(params)
     if !process
@@ -115,6 +121,7 @@ class ManageFreeregImagesController < ApplicationController
   end
 
   def upload_images
+    cookies.signed[:Administrator] = Rails.application.config.github_issues_password
     ManageFreeregImage.access_permitted?( params[:image_server_access]) 
     session[:params] = params
     @place = params[:place]
@@ -128,6 +135,7 @@ class ManageFreeregImagesController < ApplicationController
   end
   
   def view
+    cookies.signed[:Administrator] = Rails.application.config.github_issues_password
     process,@message = ManageFreeregImage.check_parameters(params)
     process,@image = ManageFreeregImage.create_file_location(params) if process
     if process
