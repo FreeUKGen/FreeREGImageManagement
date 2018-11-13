@@ -27,7 +27,7 @@ class ManageFreeregImagesController < ApplicationController
     folder_name = parameters["folder_name"]
     register = parameters["register"]
     image_server_group =  parameters["group_id"]
-    proceed, message, website = manage_freereg_image.process_upload(chapman_code,folder_name,register,image_server_group,params)
+    proceed, message, website = manage_freereg_image.process_upload(URI(request.referer).host,chapman_code,folder_name,register,image_server_group,params)
     if proceed
       redirect_to website and return
     else 
@@ -49,7 +49,7 @@ class ManageFreeregImagesController < ApplicationController
     ManageFreeregImage.access_permitted?( params[:image_server_access]) 
     #entry point to create  a new register folder on the IS
     proceed,message = ManageFreeregImage.create_county_and_register_folders(params[:chapman_code],params[:folder_name])
-    website = ManageFreeregImage.create_return_url(params[:register],params[:folder_name],proceed,message)
+    website = ManageFreeregImage.create_return_url(URI(request.referer).host,params[:register],params[:folder_name],proceed,message)
     redirect_to website and return
   end
   
@@ -98,7 +98,7 @@ class ManageFreeregImagesController < ApplicationController
     else
        notice = "Image removed"
     end
-     website = ManageFreeregImage.create_return_url_after_image_delete(params[:image_server_group_id],params[:image_file_name],message)
+     website = ManageFreeregImage.create_return_url_after_image_delete(URI(request.referer).host,params[:image_server_group_id],params[:image_file_name],message)
      redirect_to website
   end
 
