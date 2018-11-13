@@ -130,14 +130,14 @@ class ManageFreeregImage
    end
    
    def create_return_url(host,register,folder_name,proceed,message)
-     host = 'https://' + host
+     host = Rails.application.config.website
      proceed ? success = "Succeeded" : success = "Failed"
-     URI.escape(host + '/registers/create_image_server_return?register=' + register + '&folder_name=' + folder_name + '&success=' + success + '&message=' + message)
+     URI.escape(host + 'registers/create_image_server_return?register=' + register + '&folder_name=' + folder_name + '&success=' + success + '&message=' + message)
    end
    
    def create_return_url_after_image_delete(host,image_server_group_id,image_file_name,message)
-      host = 'https://' + host 
-     URI.escape(host + '/image_server_images/return_from_image_deletion?image_server_group_id=' + image_server_group_id + '&image_file_name=' + image_file_name + '&message=' + message)
+      host = Rails.application.config.website
+     URI.escape(host + 'image_server_images/return_from_image_deletion?image_server_group_id=' + image_server_group_id + '&image_file_name=' + image_file_name + '&message=' + message)
    end
    
    
@@ -258,7 +258,8 @@ class ManageFreeregImage
       files_uploaded.length == 0 ? files_uploaded = ' ' : files_uploaded = files_uploaded.join('/ ')
       proceed = true
       message = ''
-      website = URI.escape('https://' + host + '/image_server_groups/upload_return?register=' + register + '&folder_name=' + folder_name + '&image_server_group=' + image_server_group + '&files_exist=' + files_exist.to_s + '&files_uploaded=' + files_uploaded.to_s)
+      
+      website = URI.escape(Rails.application.config.website + 'image_server_groups/upload_return?register=' + register + '&folder_name=' + folder_name + '&image_server_group=' + image_server_group + '&files_exist=' + files_exist.to_s + '&files_uploaded=' + files_uploaded.to_s)
     else
       proceed = false
       message = "There were too many files in combination with their names for the upload to succeed"
