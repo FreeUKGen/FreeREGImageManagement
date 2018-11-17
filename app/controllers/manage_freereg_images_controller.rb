@@ -28,7 +28,8 @@ class ManageFreeregImagesController < ApplicationController
     folder_name = parameters["folder_name"]
     register = parameters["register"]
     image_server_group =  parameters["group_id"]
-    proceed, message, website = manage_freereg_image.process_upload(URI(request.referer).host,chapman_code,folder_name,register,image_server_group,params)
+    userid = parameters["userid"]
+    proceed, message, website = manage_freereg_image.process_upload(URI(request.referer).host,chapman_code,folder_name,register,image_server_group,userid,params)
     if proceed
       redirect_to website and return
     else 
@@ -124,6 +125,7 @@ class ManageFreeregImagesController < ApplicationController
     cookies.signed[:Administrator] = Rails.application.config.github_issues_password
     ManageFreeregImage.access_permitted?( params[:image_server_access]) 
     session[:params] = params
+    session[:userid] = params[:userid]
     @place = params[:place]
     @manage_freereg_image = ManageFreeregImage.new
     @chapman_code = params[:chapman_code] 
