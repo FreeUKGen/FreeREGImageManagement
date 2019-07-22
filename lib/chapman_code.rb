@@ -133,7 +133,42 @@ module ChapmanCode
      'Yorkshire' => 'YKS',
      'Yorkshire, East Riding' => 'ERY',
      'Yorkshire, North Riding' => 'NRY',
-     'Yorkshire, West Riding' => 'WRY'},
+     'Yorkshire, West Riding' => 'WRY'
+     },
+    "Ireland" => {
+      'County Antrim' => 'ANT',
+      'County Armagh' => 'ARM',
+      'County Carlow' => 'CAR',
+      'County Cavan' => 'CAV',
+      'County Clare' => 'CLA',
+      'County Cork' => 'COR',
+      'County Donegal' => 'DON',
+      'County Down' => 'DOW',
+      'County Dublin' => 'DUB',
+      'County Fermanagh' => 'FER',
+      'County Galway' => 'GAL',
+      'County Kerry' => 'KER',
+      'County Kildare' => 'KID',
+      'County Kilkenny' => 'KIK',
+      'County Leitrim' => 'LET',
+      'County Laois' => 'LEX',
+      'County Limerick' => 'LIM',
+      'County Londonderry ' => 'LDY',
+      'County Longford' => 'LOG',
+      'County Louth' => 'LOU',
+      'County Mayo' => 'MAY',
+      'County Meath' => 'MEA',
+      'County Monaghan' => 'MOG',
+      'County Offaly' => 'OFF',
+      'County Roscommon' => 'ROS',
+      'County Sligo' => 'SLI',
+      'County Tipperary' => 'TIP',
+      'County Tyrone' => 'TYR',
+      'County Waterford' => 'WAT',
+      'County Westmeath' => 'WEM',
+      'County Wexford' => 'WEX',
+      'County Wicklow' => 'WIC',
+    },
     "Islands" =>{
       'Channel Islands' => 'CHI',
       'Alderney' => 'ALD',
@@ -141,7 +176,6 @@ module ChapmanCode
       'Jersey' => 'JSY',
       'Isle of Man' => 'IOM',
       'Sark' => 'SRK'
-
     },
     "Scotland" =>
     {'Scotland' => 'SCT',
@@ -211,17 +245,15 @@ module ChapmanCode
      'Montgomeryshire' => 'MGY',
      'Pembrokeshire' => 'PEM',
      'Powys' => 'POW',
-     'Radnorshire' => 'RAD'},
-     "Northern Ireland" =>
-     {"Northern Ireland" => 'NIR',
-     'Antrim' => 'ANT',
-     'Armagh' => 'ARM',
-     'Down' => 'DOW',
-     'Fermanagh' => 'FER',
-     'Londonderry' => 'LDY',
-     'Tyrone' => 'TYR'},
-     'Unknown' => 
-     {'Unknown' => 'UNK'}
+     'Radnorshire' => 'RAD' },
+    'Special' => {
+      'Unknown' => 'UNK',
+      'England and Wales Shipping' => 'EWS',
+      'Out of County' => 'OUC',
+      'Overseas British' => 'OVB',
+      'Overseas Foreign' => 'OVF',
+      'Scottish Shipping' => 'SCS',
+    'Other Locations' => 'OTH' }
   }
 
 
