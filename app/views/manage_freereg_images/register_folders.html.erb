@@ -1,16 +1,16 @@
 <% title "Register Folders" %>
-<h3 style="text-align: center"><b>Register Folders on the Image Sever for <%= @county%></b>.</h3>
-<div  class="text--center"> 
- <%= link_to 'Finished', close_freereg_image_path, method: :get,data: { confirm: 'Are you sure yoyu are finished?' }, :class => "btn weight--light btn--small" %> 
-  <%= link_to 'Counties', access_freereg_image_path(:chapman_code => session[:county_chapman_code], :image_server_access => Rails.application.config.image_server_access ), method: :get, :class => "btn weight--light btn--small" %> 
+<h3 style="text-align: center"><b>Register Folders on the Image Server for <%= @county%></b>.</h3>
+<div  class="text--center">
+  <%= link_to 'Finished', close_freereg_image_path, method: :get,data: { confirm: 'Are you sure yoyu are finished?' }, :class => "btn weight--light btn--small" %>
+  <%= link_to 'Counties', access_freereg_image_path(:chapman_code => session[:county_chapman_code], :image_server_access => Rails.application.config.image_server_access ), method: :get, :class => "btn weight--light btn--small" %>
 </div>
-
 <% if flash[:notice] %>
   <div id="notice" style="color:blue"><br>
-  <%= flash[:notice] %>  <% flash[:notice] = nil%> <br>
+    <%= flash[:notice] %>  <% flash[:notice] = nil%> <br>
   </div>
 <% end %>
-<div style="clear:both;"> </div><br>
+<div style="clear:both;"> </div>
+<br>
 <table  class=" table--bordered my-width table--data just--center"  style="width:50%;margin: 0 auto">
   <tr>
     <th>Register Folders</th>
@@ -18,16 +18,15 @@
     <th></th>
     <th></th>
   </tr>
-
-<% @registers.each do |register| %>
-  <tr>
-    <td><%= register %></td>
-    <td> <%= button_to 'Show Images', images_freereg_image_path , params: {:county => @county, :register => register}, method: :get, :class => 'btn'%></td>
-     <td></td>
+  <% @registers.each do |register| %>
+    <tr>
+      <td><%= register %></td>
+      <td> <%= button_to 'Show Images', images_freereg_image_path , params: {:county => @county, :register => register}, method: :get, :class => 'btn'%></td>
       <td></td>
-  </tr>
-<% end %>
+      <td></td>
+    </tr>
+  <% end %>
 </table>
 <script type="text/javascript">
-      Ladda.bind( 'input[type=submit]' );
+  Ladda.bind( 'input[type=submit]' );
 </script>
