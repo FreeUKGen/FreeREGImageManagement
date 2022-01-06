@@ -9,12 +9,12 @@ gem 'tzinfo-data' #needed by windows
 gem 'mongoid', '5.1.4'
 gem 'mongo', '2.3.0'
 gem 'execjs'
-gem 'libv8', '~>3.16.14.7'
+#gem 'libv8', '~>3.16.14.7'
 gem 'inherited_resources', '~> 1.6'
 gem 'mobvious'
-gem "therubyracer", :platforms => :ruby # avoid loading on windows
+#gem "therubyracer", :platforms => :ruby # avoid loading on windows
 gem 'airbrake', '~> 3.1.14'
-gem 'bcrypt', '>= 3.1.9'
+gem 'bcrypt', git: 'https://github.com/adam12/bcrypt-ruby', ref: '613daca'
 gem 'text'
 gem 'json'
 gem 'pry'
@@ -74,3 +74,5 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
+
+gem "bigdecimal", "1.3.5"
