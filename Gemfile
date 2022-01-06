@@ -28,7 +28,7 @@ gem 'bourbon', '~> 2.1'
 gem 'nokogiri'
 gem "osgb", :git => 'git://github.com/FreeUKGen/osgb.git'
 gem 'quiet_assets', :group => :development
-#gem 'rmagick', "2.13.2", require: false   #version added by kirk as windows requires this version
+gem 'rmagick'
 gem 'rubyzip', "~> 0.9.9"
 gem 'rspec-rails'
 gem "fog"
@@ -74,4 +74,3 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
-
