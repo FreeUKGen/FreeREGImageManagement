@@ -130,14 +130,13 @@ class ManageFreeregImage
     end
 
     def create_return_url(host,register,folder_name,proceed,message)
-      host = Rails.application.config.application_website
       proceed ? success = "Succeeded" : success = "Failed"
-      URI.escape(host + 'registers/create_image_server_return?register=' + register + '&folder_name=' + folder_name + '&success=' + success + '&message=' + message)
+      URI.escape(web_url(host) + 'registers/create_image_server_return?register=' + register + '&folder_name=' + folder_name + '&success=' + success + '&message=' + message)
     end
 
     def create_return_url_after_image_delete(host,image_server_group_id,image_file_name,message)
       host = Rails.application.config.application_website
-      URI.escape(host + 'image_server_images/return_from_image_deletion?image_server_group_id=' + image_server_group_id + '&image_file_name=' + image_file_name + '&message=' + message)
+      URI.escape(web_url(host) + 'image_server_images/return_from_image_deletion?image_server_group_id=' + image_server_group_id + '&image_file_name=' + image_file_name + '&message=' + message)
     end
 
 
@@ -258,8 +257,7 @@ class ManageFreeregImage
         files_uploaded.length == 0 ? files_uploaded = ' ' : files_uploaded = files_uploaded.join('/ ')
         proceed = true
         message = ''
-
-        website = URI.escape(Rails.application.config.application_website + 'image_server_groups/upload_return?register=' + register + '&folder_name=' + folder_name + '&image_server_group=' + image_server_group +'&userid=' +
+        website = URI.escape(web_url(host) + 'image_server_groups/upload_return?register=' + register + '&folder_name=' + folder_name + '&image_server_group=' + image_server_group +'&userid=' +
                              userid + '&files_exist=' + files_exist.to_s + '&files_uploaded=' + files_uploaded.to_s)
       else
         proceed = false
@@ -269,6 +267,7 @@ class ManageFreeregImage
     end
     return proceed, message, website
   end
+
   def process_upload_check_length
     characters = 0
     cache_parts = self.freereg_images_cache.split(',')
@@ -278,5 +277,15 @@ class ManageFreeregImage
       characters = characters + file_parts[1].to_s.length
     end
     characters <= 1800 ? process = true : process = false
+  end
+
+  def test_website?(text)
+    test_website = 'test3'
+    text.include?(test_website)
+  end
+
+  def web_url(text)
+    test_website?(text) ? web_url = Rails.application.config.application_test_website : web_url = Rails.application.config.application_website
+    web_url
   end
 end
