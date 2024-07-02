@@ -74,6 +74,7 @@ FreeregImageManagement::Application.configure do
   config.imagedirectory = FreeregImageManagement::MongoConfig['imagedirectory']
   config.website = FreeregImageManagement::MongoConfig['website']
   config.application_website = FreeregImageManagement::MongoConfig['application_website']
+  config.application_test_website = FreeregImageManagement::MongoConfig['application_test_website']
   config.image_server_access =  FreeregImageManagement::MongoConfig['image_server_access']
   config.backup_directory = FreeregImageManagement::MongoConfig['backup_directory']
   config.github_issues_login = FreeregImageManagement::MongoConfig['github_issues_login']
